@@ -6,11 +6,14 @@ module.exports = {
     watchOptions : {
       poll: true
     },
+    proxy: {
+      '**': 'http://localhost:5000'
+    },
     watchContentBase: true,
     contentBase: path.join(__dirname, 'src'),
     compress: true,
     port: 9000,
-    host: "0.0.0.0"
+    host: "localhost"
   },
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.scss']
