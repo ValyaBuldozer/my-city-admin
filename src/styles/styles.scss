@@ -1,0 +1,56 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.root {
+    height: 100vh;
+    width: 100vw;
+}
+
+.places {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template: 1fr / 400px 1fr;
+    grid-template-areas: "list content";
+
+    &-list {
+        grid-area: list;
+        overflow-y: auto;
+    }
+
+    &-content {
+        grid-area: "content";
+    }
+}
+
+.place-item {
+    height: 100px;
+    width: 100%;
+    margin: 5px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    &-logo {
+        height: 60px;
+        width: 60px;
+        margin: 10px;
+    }
+}
+
+.editor {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    &-field {
+        padding: 20px 30px;
+        width: 100%;
+    }
+}
