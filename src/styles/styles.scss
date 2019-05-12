@@ -1,6 +1,11 @@
 body {
     padding: 0;
     margin: 0;
+    max-height: 100%;
+}
+
+div {
+    box-sizing: border-box;
 }
 
 .root {
@@ -8,36 +13,46 @@ body {
     width: 100vw;
 }
 
-.places {
+.layout {
     width: 100%;
     height: 100%;
+    position: relative;
     display: grid;
-    grid-template: 1fr / 400px 1fr;
-    grid-template-areas: "list content";
+    grid-template: 100px calc(100% - 100px) / 400px 1fr;
+    grid-template-areas: "header editor"
+                         "list editor";
 
-    &-list {
-        grid-area: list;
-        overflow-y: auto;
+    &__header {
+        grid-area: header;
     }
 
-    &-content {
-        grid-area: "content";
+    &__list {
+        grid-area: list;
+    }
+
+    &__editor {
+        grid-area: editor;
     }
 }
 
-.place-item {
-    height: 100px;
-    width: 100%;
-    margin: 5px 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+.list {
+    overflow-y: scroll;
+    overflow-x: hidden;
 
-    &-logo {
-        height: 60px;
-        width: 60px;
-        margin: 10px;
+    &-item {
+        height: 100px;
+        width: 100%;
+        margin: 5px 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        &__logo {
+            height: 60px;
+            width: 60px;
+            margin: 10px;
+        }
     }
 }
 
@@ -48,9 +63,51 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    overflow-y: scroll;
+    padding-top: 50px;
 
     &-field {
         padding: 20px 30px;
+        width: 100%;
+    }
+}
+
+.editable-field {
+    width: 100%;
+    min-height: 50px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+
+    &_left {
+        justify-content: flex-start;
+    }
+
+    &_center {
+        justify-content: center;
+    }
+
+    &__label {
+
+    }
+
+    &__text {
+        padding: 3px 5px;
+
+        &_title {
+            // realy sorry for this, material-ui/styled in beta and doesn't work...
+            font-size: 17px !important;
+            font-weight: bold !important;
+        }
+
+        &_default {
+            font-size: 15px !important; 
+            font-weight: normal;
+        }
+    }
+
+    &__input {
         width: 100%;
     }
 }

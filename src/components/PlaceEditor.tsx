@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { fetchData } from '../util/fetch';
+import { fetchData, uploadFile } from '../util/fetch';
 import Place from '../models/Place';
 import PlaceInfo from '../models/PlaceInfo';
 import Answer from '../models/Answer';
 import TextField from '@material-ui/core/TextField';
+import EditableField from './EditableField';
 
 interface Props {
     id: number;
@@ -19,6 +20,8 @@ interface State {
     routes: Array<PlaceInfo>;
     answers: Array<Answer>;
 }
+
+type FieldType = 'name' | 'logo_path' | 'description' | 'question_title' | 'address' | 'routes' | 'answers';
 
 export default class PlaceEditor extends React.Component<Props, State> {
 
@@ -56,22 +59,43 @@ export default class PlaceEditor extends React.Component<Props, State> {
         this.fetchPlace();
     }
 
-    nameHandler = e => {
-        this.setState({ name: e.target.value });
+    private fieldHandler = (fieldName: FieldType) => e => {
+        this.setState({ ...this.state, [fieldName]: e.target.value })
+    }
+
+    private fileHandler = (e: React.FormEvent<HTMLInputElement>) => {
+        const file = Array.from(e.currentTarget.files)[0];
+
+        uploadFile(file);
     }
 
     render() {
-        const { name } = this.state;
+        const { name, description, address } = this.state;
         
         return (
-            <div className="editor">
-                <div className="editor-field">
-                    <TextField 
-                        label="Название"
-                        value={name}
-                        onChange={this.nameHandler}/>
+            <React.Fragment>
+                <EditableField
+                    text={name}
+                    label="Название"
+                    type='title'
+                    alignment='center'
+                    onChange={this.fieldHandler('name')}/>
+                <EditableField
+                    text={description}
+                    label="Описание"
+                    onChange={this.fieldHandler('description')}
+                    type='default'
+                    alignment='left'/>
+                <EditableField
+                    text={address}
+                    label="Адрес"
+                    onChange={this.fieldHandler('address')}
+                    type='default'
+                    alignment='left'/>
+                    <div>
+                <input type='file' onChange={this.fileHandler}/>
                 </div>
-            </div>
+            </React.Fragment>
         )
     }
 }

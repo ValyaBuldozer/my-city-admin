@@ -39,8 +39,8 @@ export default class PlacesLayout extends React.Component<{}, State> {
         const { placesList, currentPlace } = this.state;
 
         return (
-            <div className="places">
-                <div className="places-list">
+            <React.Fragment>
+                <div className="layout__list   list">
                     {
                         placesList.map(place => 
                             <PlaceListItem 
@@ -50,14 +50,14 @@ export default class PlacesLayout extends React.Component<{}, State> {
                         )
                     }
                 </div>
-                <div className="places-content">
+                <div className="layout__editor   editor">
                     {
                         currentPlace ? 
                             <PlaceEditor id={currentPlace.id}/> :
                             <div/>
                     }
                 </div>
-            </div>
+            </React.Fragment>
         )
     }
 }

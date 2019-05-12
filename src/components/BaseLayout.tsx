@@ -36,8 +36,8 @@ export default class BaseLayout extends React.Component<{}, State> {
         const { menuAnchorElement, currentMenuItem } = this.state;
 
         return (
-            <div className="root">
-                <List component="nav">
+            <div className="layout">
+                <List component="nav" className="layout__header">
                     <ListItem
                         button
                         aria-haspopup="true"
