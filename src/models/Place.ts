@@ -12,3 +12,16 @@ export default interface Place {
     routes: Array<PlaceInfo>;
     answers: Array<Answer>;
 }
+
+export function isPlace(obj: any): obj is Place {
+    return typeof obj.id === 'number' 
+        && typeof obj.name === 'string' 
+        && typeof obj.logo_path === 'string'
+        && typeof obj.image_path === 'string'
+        && Array.isArray(obj.routes)
+        && Array.isArray(obj.answers); 
+}
+
+export function isPlacesArray(obj: any): obj is Array<Place> {
+    return Array.isArray(obj) && obj.every(place => isPlace(place));
+}

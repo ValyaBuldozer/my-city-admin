@@ -6,6 +6,7 @@ import { createBlock } from '../util/classnames';
 interface Props {
     text: string;
     label?: string;
+    showLabel?: boolean;
     type: 'title' | 'default';
     alignment: 'left' | 'center';
     onChange: (newValue: string) => any;
@@ -17,6 +18,10 @@ interface State {
 }
 
 export default class EditableField extends React.Component<Props, State> {
+
+    public static defaultProps = {
+        showLabel: false
+    }
 
     private root = React.createRef<HTMLDivElement>();
     
@@ -47,7 +52,7 @@ export default class EditableField extends React.Component<Props, State> {
     }
 
     render() {
-        const { type, alignment, label } = this.props,
+        const { type, alignment, label, showLabel } = this.props,
             { text, isEditing } = this.state;
 
         return  (
@@ -63,7 +68,14 @@ export default class EditableField extends React.Component<Props, State> {
                             onChange={this.onChange}
                             multiline/>
                         :
-                        <Typography className={createBlock('editable-field', 'text', type)}>{text}</Typography>
+                        [
+                            <Typography className={createBlock('editable-field', 'text', type)} color="textSecondary" variant="subtitle2">
+                                {showLabel ? `${label}:` : ''}
+                            </Typography>,
+                            <Typography className={createBlock('editable-field', 'text', type)} color="textPrimary">
+                                {text}
+                            </Typography>
+                        ]
                 }
             </div>  
         )

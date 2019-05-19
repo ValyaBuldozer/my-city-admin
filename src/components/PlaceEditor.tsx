@@ -4,10 +4,15 @@ import Place from '../models/Place';
 import PlaceInfo from '../models/PlaceInfo';
 import Answer from '../models/Answer';
 import TextField from '@material-ui/core/TextField';
+import Slider from '@material-ui/lab/Slider';
+import Button from '@material-ui/core/Button';
 import EditableField from './EditableField';
+// I have no idea, why it doesn't work with es6 imports...
+// https://github.com/mosch/react-avatar-editor/issues/263
+const AvatarEditor = require('react-avatar-editor');
 
 interface Props {
-    id: number;
+    place: Place;
 }
 
 interface State {
@@ -19,11 +24,14 @@ interface State {
     address: string;
     routes: Array<PlaceInfo>;
     answers: Array<Answer>;
+
+    image: File;
+    imageScale: number;
 }
 
 type FieldType = 'name' | 'logo_path' | 'description' | 'question_title' | 'address' | 'routes' | 'answers';
 
-export default class PlaceEditor extends React.Component<Props, State> {
+class PlaceEditorBase extends React.Component<Props, State> {
 
     constructor(props) {
         super(props);
@@ -36,28 +44,30 @@ export default class PlaceEditor extends React.Component<Props, State> {
             question_title: '',
             address: '',
             routes: [],
-            answers: []
+            answers: [],
+            image: null,
+            imageScale: 50
         }
     }
 
-    fetchPlace() {
-        fetchData(`/places/${this.props.id}`, (place: Place) => {
-            this.setState({
-                ...this.state,
-                ...place
-            })
-        })
-    }
+    // fetchPlace() {
+    //     fetchData(`/places/${this.props.id}`, (place: Place) => {
+    //         this.setState({
+    //             ...this.state,
+    //             ...place
+    //         })
+    //     })
+    // }
 
-    componentDidUpdate(prevProps: Props) {
-        if (prevProps.id != this.props.id) {
-            this.fetchPlace();
-        }
-    }
+    // componentDidUpdate(prevProps: Props) {
+    //     if (prevProps.id != this.props.id) {
+    //         this.fetchPlace();
+    //     }
+    // }
 
-    componentDidMount() {
-        this.fetchPlace();
-    }
+    // componentDidMount() {
+    //     this.fetchPlace();
+    // }
 
     private fieldHandler = (fieldName: FieldType) => e => {
         this.setState({ ...this.state, [fieldName]: e.target.value })
@@ -66,11 +76,19 @@ export default class PlaceEditor extends React.Component<Props, State> {
     private fileHandler = (e: React.FormEvent<HTMLInputElement>) => {
         const file = Array.from(e.currentTarget.files)[0];
 
-        uploadFile(file);
+        this.setState({ image: file })
+    }
+
+    private saveHandler = () => {
+        uploadFile(this.state.image);
+    }
+
+    private sliderHandler = (event, scaleValue: number) => {
+        this.setState({ imageScale: scaleValue })
     }
 
     render() {
-        const { name, description, address } = this.state;
+        const { name, description, address, image, image_path, imageScale } = this.state;
         
         return (
             <React.Fragment>
@@ -82,18 +100,35 @@ export default class PlaceEditor extends React.Component<Props, State> {
                     onChange={this.fieldHandler('name')}/>
                 <EditableField
                     text={description}
+                    showLabel
                     label="Описание"
                     onChange={this.fieldHandler('description')}
                     type='default'
                     alignment='left'/>
                 <EditableField
                     text={address}
+                    showLabel
                     label="Адрес"
                     onChange={this.fieldHandler('address')}
                     type='default'
                     alignment='left'/>
-                    <div>
-                <input type='file' onChange={this.fileHandler}/>
+                <div className="editor__avatar">
+                    <input type='file' onChange={this.fileHandler}/>       
+                    <AvatarEditor
+                        height={400}
+                        width={400}
+                        image={image ? image : image_path}
+                        scale={imageScale / 100}/>
+                    <div className="editor__slider">
+                        <Slider 
+                            value={imageScale}
+                            onChange={this.sliderHandler}/>
+                    </div>
+                    <Button 
+                        variant='contained'
+                        onClick={this.saveHandler}>
+                        Save
+                    </Button>
                 </div>
             </React.Fragment>
         )

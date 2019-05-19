@@ -59,16 +59,26 @@ div {
 .editor {
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
     overflow-y: scroll;
     padding-top: 50px;
 
     &-field {
         padding: 20px 30px;
         width: 100%;
+    }
+
+    &__avatar {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    &__slider {
+        width: 500px;
+        height: 70px;
+        padding: 20px;
     }
 }
 
@@ -78,7 +88,8 @@ div {
     padding: 5px 10px;
     display: flex;
     flex-direction: row;
-    align-content: center;
+    align-content: flex-start;
+    padding: 5px;
 
     &_left {
         justify-content: flex-start;
@@ -88,12 +99,8 @@ div {
         justify-content: center;
     }
 
-    &__label {
-
-    }
-
     &__text {
-        padding: 3px 5px;
+        padding: 3px 15px;
 
         &_title {
             // realy sorry for this, material-ui/styled in beta and doesn't work...
@@ -105,6 +112,10 @@ div {
             font-size: 15px !important; 
             font-weight: normal;
         }
+    }
+
+    &__label {
+        font-size: 14px;
     }
 
     &__input {
