@@ -111,6 +111,34 @@ function appReducer(state: AppState = initialState, action: StateAction = null):
             }
         }
 
+        case ActionType.ADD_PLACE_ROUTE: {
+            const route = state.routes.find(route => route.id === action.id)
+
+            return {
+                ...state,
+                selected: {
+                    ...state.selected,
+                    place: {
+                        ...state.selected.place,
+                        routes: route ? [...state.selected.place.routes, route] : state.selected.place.routes
+                    }
+                }
+            }
+        }
+
+        case ActionType.REMOVE_PLACE_ROUTE: {
+            return {
+                ...state, 
+                selected: {
+                    ...state.selected,
+                    place: {
+                        ...state.selected.place,
+                        routes: state.selected.place.routes.filter(route => route.id !== action.id)
+                    }
+                }
+            }
+        }
+
         default: {
             return state;
         }

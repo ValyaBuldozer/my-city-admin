@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import AppState from '../redux/state';
 import { updatePlace } from '../redux/actions';
 import QuizEditor from './QuizEditor';
+import PlaceRoutesEditor from './PlaceRoutesEditor';
 // I have no idea, why it doesn't work with es6 imports...
 // https://github.com/mosch/react-avatar-editor/issues/263
 const AvatarEditor = require('react-avatar-editor');
@@ -107,6 +108,9 @@ class PlaceEditorBase extends React.Component<Props, State> {
                     alignment='left'/>
                 <div className="editor__quiz">
                     <QuizEditor/>
+                </div>
+                <div className="editor__routes">
+                    <PlaceRoutesEditor/>
                 </div>
                 <div className="editor__avatar">
                     <input type='file' onChange={this.fileHandler}/>       

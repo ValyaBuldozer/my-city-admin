@@ -11,7 +11,9 @@ export enum ActionType {
     UPDATE_ROUTE = 'UPDATE_ROUTE',
     CREATE_ANSWER = 'ADD_ANSWER',
     REMOVE_ANSWER = 'REMOVE_ANSWER',
-    UPDATE_ANSWER = 'UPDATE_ASWER'
+    UPDATE_ANSWER = 'UPDATE_ASWER',
+    ADD_PLACE_ROUTE = 'ADD_PLACE_ROUTE',
+    REMOVE_PLACE_ROUTE = 'REMOVE_PLACE_ROUTE'
 }
 
 
@@ -103,6 +105,26 @@ export const updateAnswer = (answer: Answer): UpdateAnswerAction => ({
     answer
 })
 
+export interface AddPlaceRouteAction {
+    type: ActionType.ADD_PLACE_ROUTE;
+    id: number;
+}
+
+export const addPlaceRoute = (id: number): AddPlaceRouteAction => ({
+    type: ActionType.ADD_PLACE_ROUTE,
+    id
+})
+
+export interface RemovePlaceRouteAction {
+    type: ActionType.REMOVE_PLACE_ROUTE;
+    id: number;
+}
+
+export const removePlaceRoute = (id: number): RemovePlaceRouteAction => ({
+    type: ActionType.REMOVE_PLACE_ROUTE,
+    id
+})
+
 type StateAction  = SetPlacesAction | 
     SetRoutesAction | 
     SelectPlaceAction | 
@@ -111,6 +133,8 @@ type StateAction  = SetPlacesAction |
     UpdateRouteAction | 
     CreateAnswerAction | 
     RemoveAnswerAction | 
-    UpdateAnswerAction;
+    UpdateAnswerAction | 
+    AddPlaceRouteAction | 
+    RemovePlaceRouteAction;
 
 export default StateAction;

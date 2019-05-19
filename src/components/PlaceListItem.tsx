@@ -10,17 +10,15 @@ interface Props {
 
 const PlaceListItem = ({ place, onSelect }: Props) => {
 
-
-
     return (
         <Paper 
-            className="place-item" 
+            className="list-item" 
             elevation={3} 
             onClick={() => onSelect()}>
             <Avatar 
                 src={place.logo_path} 
-                className="place-item-logo"/>
-            <div className="place-item-title">
+                className="list-item-logo"/>
+            <div className="list-item-title">
                 { place.name }
             </div>
         </Paper>

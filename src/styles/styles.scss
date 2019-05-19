@@ -40,19 +40,13 @@ div {
     overflow-x: hidden;
 
     &-item {
-        height: 100px;
-        width: 100%;
-        margin: 5px 0;
+        cursor: pointer;
+        margin: 5px;
+        padding: 5px;
         display: flex;
-        flex-direction: row;
+        flex-direction: row;    
         justify-content: flex-start;
         align-items: center;
-
-        &__logo {
-            height: 60px;
-            width: 60px;
-            margin: 10px;
-        }
     }
 }
 
@@ -154,4 +148,9 @@ div {
     &__description {
         grid-area: description;
     }
+}
+
+.place-routes {
+    margin: 20px 10px;
+    padding: 10px;
 }

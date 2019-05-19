@@ -1,5 +1,5 @@
-import PlaceInfo from "./PlaceInfo";
 import Answer from "./Answer";
+import Route from "./Routes";
 
 export default interface Place {
     id: number;
@@ -9,7 +9,7 @@ export default interface Place {
     description: string;
     question_title: string;
     address: string;
-    routes: Array<PlaceInfo>;
+    routes: Array<Route>;
     answers: Array<Answer>;
 }
 
