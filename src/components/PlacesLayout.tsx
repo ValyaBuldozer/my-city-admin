@@ -5,10 +5,13 @@ import { Paper } from 'material-ui';
 import Place from '../models/Place';
 import { connect } from 'react-redux';
 import AppState from '../redux/state';
+import { selectPlace } from '../redux/actions';
+import PlaceEditor from './PlaceEditor';
 
 interface Props {
     places: Place[];
     selectedPlace: Place;
+    selectPlace: (id: number) => any;
 }
 
 interface State {
@@ -44,7 +47,7 @@ class PlacesLayoutBase extends React.Component<Props, State> {
 
     render() {
         //const { placesList, currentPlace } = this.state;
-        const { places, selectedPlace } = this.props;
+        const { places, selectedPlace, selectPlace } = this.props;
 
         return (
             <React.Fragment>
@@ -55,12 +58,13 @@ class PlacesLayoutBase extends React.Component<Props, State> {
                                 <PlaceListItem 
                                     key={place.id} 
                                     place={place} 
-                                    onSelect={() => this.placeSelectHandler(place)}/>
+                                    onSelect={() => selectPlace(place.id)}/>
                             ) :
                             <p>Loading places...</p>
                     }
                 </div>
                 <div className="layout__editor   editor">
+                    <PlaceEditor/>
                 </div>
             </React.Fragment>
         )
@@ -68,11 +72,13 @@ class PlacesLayoutBase extends React.Component<Props, State> {
 }
 
 const PlacesLayout = connect(
-    (state: AppState): Props => ({
+    (state: AppState) => ({
         places: state.places,
         selectedPlace: state.selected.place
     }),
-    dispatch => ({})
+    dispatch => ({
+        selectPlace: (id: number) => dispatch(selectPlace(id))
+    })
 )(PlacesLayoutBase)
 
 export default PlacesLayout;

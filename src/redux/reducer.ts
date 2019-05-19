@@ -1,5 +1,6 @@
 import AppState, { initialState } from "./state";
 import StateAction, { ActionType } from "./actions";
+import uid from "../util/uid";
 
 function appReducer(state: AppState = initialState, action: StateAction = null): AppState {
     switch(action.type) {
@@ -37,6 +38,75 @@ function appReducer(state: AppState = initialState, action: StateAction = null):
                 selected: {
                     ...state.selected,
                     route: route && { ...route, places: [...route.places] }
+                }
+            }
+        }
+
+        case ActionType.UPDATE_PLACE: {
+            return {
+                ...state,
+                selected: {
+                    ...state.selected,
+                    place: { ...action.place, id: state.selected.place.id }
+                }
+            }
+        }
+
+        case ActionType.UPDATE_ROUTE: {
+            return {
+                ...state,
+                selected: {
+                    ...state.selected,
+                    route: { ...action.route, id: state.selected.route.id }
+                }
+            }
+        }
+
+        case ActionType.CREATE_ANSWER: {
+            return {
+                ...state,
+                selected: {
+                    ...state.selected,
+                    place: {
+                        ...state.selected.place,
+                        answers: [
+                            ...state.selected.place.answers, 
+                            {
+                                id: uid(),
+                                title: '',
+                                description: '',
+                                is_right: false
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+        case ActionType.REMOVE_ANSWER: {
+            return {
+                ...state,
+                selected: {
+                    ...state.selected,
+                    place: {
+                        ...state.selected.place,
+                        answers: state.selected.place.answers.filter(answer => answer.id != action.id)
+                    }
+                }
+            }
+        }
+
+        case ActionType.UPDATE_ANSWER: {
+            return {
+                ...state,
+                selected: {
+                    ...state.selected,
+                    place: {
+                        ...state.selected.place,
+                        answers: state.selected.place.answers.map(answer => answer.id === action.answer.id ? 
+                            { ...action.answer } :
+                            answer)
+                    }
                 }
             }
         }

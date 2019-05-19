@@ -37,3 +37,31 @@ export function fetchRoutes(): ThunkAction<void, {}, {}, StateAction> {
             .catch(err => console.error(err));
     }
 }
+
+// TODO(it's so bad...)
+export function fetchData(): ThunkAction<void, {}, {}, StateAction> {
+    return (dispatch: ThunkDispatch<AppState, {}, StateAction>) => {
+        fetch(PLACES_PATH)
+            .then(content => content.json())
+            .then(places => {
+                if (isPlacesArray(places)) {
+                    dispatch(setPlaces(places));
+                } else {
+                    throw new Error('Invalid json format at places GET request.')
+                }
+            })
+            .catch(err => console.error(err))
+            .finally(() => {
+                fetch(ROUTES_PATH)
+                    .then(content => content.json())
+                    .then(routes => {
+                        if (isRoutesArray(routes)) {
+                            dispatch(setRoutes(routes));
+                        } else {
+                            throw new Error('Invalid json format at routes GET request.');
+                        }
+                    })
+                    .catch(err => console.error(err));
+            });
+    }
+}

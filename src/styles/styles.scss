@@ -122,3 +122,36 @@ div {
         width: 100%;
     }
 }
+
+.quiz-editor {
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+
+}
+
+.quiz-answer {
+    width: 100%;
+    padding: 7px 10px;
+    margin: 6px 0;
+    display: grid;
+    grid-template: auto auto / 1fr 50px;
+    grid-template-areas: "title is-right"
+                         "description description";
+
+    &__title {
+        grid-area: title;
+    }
+
+    &__is-right {
+        grid-area: is-right;
+    }
+
+    &__description {
+        grid-area: description;
+    }
+}

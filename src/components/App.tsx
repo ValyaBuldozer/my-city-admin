@@ -5,11 +5,10 @@ import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import StateAction from '../redux/actions';
 import AppState from '../redux/state';
-import { fetchPlaces, fetchRoutes } from '../redux/thunks';
+import { fetchPlaces, fetchRoutes, fetchData } from '../redux/thunks';
 
 interface AppProps {
-    fetchPlaces: () => any;
-    fetchRoutes: () => any;
+    fetchData: () => any;
 }
 
 class AppBase extends React.Component<AppProps> {
@@ -23,16 +22,14 @@ class AppBase extends React.Component<AppProps> {
     }
 
     componentDidMount() {
-        this.props.fetchPlaces();
-        this.props.fetchRoutes();
+        this.props.fetchData();
     }
 }
 
 const App = connect(
     () => ({}),
     (dispatch: ThunkDispatch<AppState, {}, StateAction>) => ({
-        fetchPlaces: () => dispatch(fetchPlaces()),
-        fetchRoutes: () => dispatch(fetchRoutes())
+        fetchData: () => dispatch(fetchData())
     })
 )(AppBase);
 

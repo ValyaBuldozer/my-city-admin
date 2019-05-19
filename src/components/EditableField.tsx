@@ -85,6 +85,10 @@ export default class EditableField extends React.Component<Props, State> {
         this.setState({
             isEditing: !this.state.isEditing
         })
+
+        if (!this.state.isEditing) {
+            this.props.onChange(this.state.text);
+        }
     }
 
     private onChange = e => {
@@ -92,7 +96,7 @@ export default class EditableField extends React.Component<Props, State> {
             text: e.target.value
         });
 
-        this.props.onChange(e.target.value);
+        //this.props.onChange(e.target.value);
     }
 
     private onOutsideClick = e => {
