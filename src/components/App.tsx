@@ -3,9 +3,9 @@ import BaseLayout from './BaseLayout';
 import '../styles/styles.scss';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import StateAction from '../redux/actions';
 import AppState from '../redux/state';
 import { fetchPlaces, fetchRoutes, fetchData } from '../redux/thunks';
+import StateAction from '../redux/actions';
 
 interface AppProps {
     fetchData: () => any;

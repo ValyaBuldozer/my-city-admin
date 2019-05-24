@@ -1,6 +1,6 @@
 import AppState, { initialState } from "./state";
-import StateAction, { ActionType } from "./actions";
 import uid from "../util/uid";
+import StateAction, { ActionType } from "./actions";
 
 function appReducer(state: AppState = initialState, action: StateAction = null): AppState {
     switch(action.type) {

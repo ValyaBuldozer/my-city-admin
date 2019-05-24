@@ -2,7 +2,7 @@ import * as React from 'react';
 import Answer from '../models/Answer';
 import { connect } from 'react-redux';
 import AppState from '../redux/state';
-import { updateAnswer } from '../redux/actions';
+import { updateAnswer } from '../redux/actions-creators';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';

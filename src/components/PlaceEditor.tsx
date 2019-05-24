@@ -1,17 +1,16 @@
 import * as React from 'react';
-import { uploadFile } from '../util/fetch';
 import Place from '../models/Place';
-import PlaceInfo from '../models/PlaceInfo';
-import Answer from '../models/Answer';
-import TextField from '@material-ui/core/TextField';
 import Slider from '@material-ui/lab/Slider';
 import Button from '@material-ui/core/Button';
 import EditableField from './EditableField';
 import { connect } from 'react-redux';
 import AppState from '../redux/state';
-import { updatePlace } from '../redux/actions';
+import { updatePlace } from '../redux/actions-creators';
 import QuizEditor from './QuizEditor';
 import PlaceRoutesEditor from './PlaceRoutesEditor';
+import { postPlaceUpdate } from '../redux/thunks';
+import { ThunkDispatch } from 'redux-thunk';
+import StateAction from '../redux/actions';
 // I have no idea, why it doesn't work with es6 imports...
 // https://github.com/mosch/react-avatar-editor/issues/263
 const AvatarEditor = require('react-avatar-editor');
@@ -19,6 +18,7 @@ const AvatarEditor = require('react-avatar-editor');
 interface Props {
     place: Place;
     updatePlace: (place: Place) => any;
+    savePlace: () => any;
 }
 
 interface State {
@@ -69,7 +69,8 @@ class PlaceEditorBase extends React.Component<Props, State> {
     }
 
     private saveHandler = () => {
-        uploadFile(this.state.image);
+        //uploadFile(this.state.image);
+        this.props.savePlace();
     }
 
     private sliderHandler = (event, scaleValue: number) => {
@@ -139,8 +140,9 @@ const PlaceEditor = connect(
     (state: AppState) => ({
         place: state.selected.place
     }),
-    dispatch => ({
-        updatePlace: (place: Place) => dispatch(updatePlace(place))
+    (dispatch: ThunkDispatch<AppState, {}, StateAction>) => ({
+        updatePlace: (place: Place) => dispatch(updatePlace(place)),
+        savePlace: () => dispatch(postPlaceUpdate())
     })
 )(PlaceEditorBase);
 

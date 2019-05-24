@@ -4,7 +4,7 @@ import PlaceInfo from '../models/PlaceInfo';
 import { connect } from 'react-redux';
 import AppState from '../redux/state';
 import Route from '../models/Routes';
-import { addPlaceRoute, removePlaceRoute } from '../redux/actions';
+import { addPlaceRoute, removePlaceRoute } from '../redux/actions-creators';
 import List from '@material-ui/core/List';
 import Paper from '@material-ui/core/Paper';
 import ListItem from '@material-ui/core/ListItem';

@@ -1,8 +1,9 @@
 import { ThunkDispatch, ThunkAction } from "redux-thunk";
 import AppState from "./state";
-import StateAction, { setPlaces, setRoutes } from "./actions";
-import { isPlacesArray } from "../models/Place";
+import { setPlaces, setRoutes } from "./actions-creators";
+import { isPlacesArray, isPlace } from "../models/Place";
 import { isRoutesArray } from "../models/Routes";
+import StateAction from "./actions";
 
 const API_PATH = '/admin/',
     PLACES_PATH = API_PATH + 'places',
@@ -63,5 +64,26 @@ export function fetchData(): ThunkAction<void, {}, {}, StateAction> {
                     })
                     .catch(err => console.error(err));
             });
+    }
+}
+
+export function postPlaceUpdate(): ThunkAction<void, {}, {}, StateAction> {
+    return (dispatch: ThunkDispatch<AppState, {}, StateAction>, getState: () => AppState) => {
+        const place = getState().selected.place;
+        fetch(`${PLACES_PATH}/${place.id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(place)
+        })
+            .then(response => {
+                if (response.status === 200 && isPlace(response.json())) {
+                    console.log('cool')
+                } else {
+                    throw new Error(`Request status: ${response.status} - ${response.statusText}`)
+                }
+            })
+            .catch(err => console.error(err))
     }
 }

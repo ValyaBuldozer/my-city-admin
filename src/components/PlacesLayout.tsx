@@ -5,7 +5,7 @@ import { Paper } from 'material-ui';
 import Place from '../models/Place';
 import { connect } from 'react-redux';
 import AppState from '../redux/state';
-import { selectPlace } from '../redux/actions';
+import { selectPlace } from '../redux/actions-creators';
 import PlaceEditor from './PlaceEditor';
 
 interface Props {
