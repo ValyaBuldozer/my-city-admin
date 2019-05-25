@@ -42,7 +42,7 @@ function appReducer(state: AppState = initialState, action: StateAction = null):
             }
         }
 
-        case ActionType.UPDATE_PLACE: {
+        case ActionType.UPDATE_SELECTED_PLACE: {
             return {
                 ...state,
                 selected: {
@@ -52,13 +52,27 @@ function appReducer(state: AppState = initialState, action: StateAction = null):
             }
         }
 
-        case ActionType.UPDATE_ROUTE: {
+        case ActionType.UPDATE_SELECTED_ROUTE: {
             return {
                 ...state,
                 selected: {
                     ...state.selected,
                     route: { ...action.route, id: state.selected.route.id }
                 }
+            }
+        }
+
+        case ActionType.UPDATE_PLACE: {
+            return {
+                ...state,
+                places: state.places.map(place => place.id == action.place.id ? action.place : place)
+            }
+        }
+
+        case ActionType.UPDATE_ROUTE: {
+            return {
+                ...state, 
+                routes: state.routes.map(route => route.id == action.route.id ? action.route : route)
             }
         }
 
@@ -136,6 +150,13 @@ function appReducer(state: AppState = initialState, action: StateAction = null):
                         routes: state.selected.place.routes.filter(route => route.id !== action.id)
                     }
                 }
+            }
+        }
+
+        case ActionType.SET_NOTIFICATION: {
+            return {
+                ...state, 
+                currentNotification: new String(action.text)
             }
         }
 

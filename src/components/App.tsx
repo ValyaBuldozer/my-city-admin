@@ -6,6 +6,8 @@ import { ThunkDispatch } from 'redux-thunk';
 import AppState from '../redux/state';
 import { fetchPlaces, fetchRoutes, fetchData } from '../redux/thunks';
 import StateAction from '../redux/actions';
+import NotificationHandler from './NotificationHandler';
+import { SnackbarProvider } from 'notistack';
 
 interface AppProps {
     fetchData: () => any;
@@ -16,7 +18,11 @@ class AppBase extends React.Component<AppProps> {
     render() {
         return (
             <div className='root'>
-                <BaseLayout/>
+                <SnackbarProvider maxSnack={3}>
+                    <NotificationHandler>
+                        <BaseLayout/>
+                    </NotificationHandler>
+                </SnackbarProvider>
             </div>
         )
     }

@@ -1,6 +1,6 @@
 import { ThunkDispatch, ThunkAction } from "redux-thunk";
 import AppState from "./state";
-import { setPlaces, setRoutes } from "./actions-creators";
+import { setPlaces, setRoutes, showNotification, updatePlace, selectPlace } from "./actions-creators";
 import { isPlacesArray, isPlace } from "../models/Place";
 import { isRoutesArray } from "../models/Routes";
 import StateAction from "./actions";
@@ -78,11 +78,16 @@ export function postPlaceUpdate(): ThunkAction<void, {}, {}, StateAction> {
             body: JSON.stringify(place)
         })
             .then(response => {
-                if (response.status === 200 && isPlace(response.json())) {
-                    console.log('cool')
+                if (response.status === 200) {
+                    return response.json();
                 } else {
                     throw new Error(`Request status: ${response.status} - ${response.statusText}`)
                 }
+            })
+            .then(place => {
+                dispatch(showNotification('Updated'));
+                dispatch(updatePlace(place));
+                dispatch(selectPlace(null));
             })
             .catch(err => console.error(err))
     }

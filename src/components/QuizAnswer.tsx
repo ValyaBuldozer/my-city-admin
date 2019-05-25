@@ -25,7 +25,6 @@ interface DispatchProps {
 interface Props extends StateProps, DispatchProps {}
 
 const QuizAnswerBase = ({answer, updateDescription, updateIsRight, updateTitle}: Props) => {
-    console.log(answer.is_right)
     return (
         <Paper className="quiz-answer" elevation={3}>
             <div className="quiz-answer__title">

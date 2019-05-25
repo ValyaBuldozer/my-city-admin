@@ -23,6 +23,16 @@ export const selectRoute = (id: number) => (<const>{
     id
 })
 
+export const updateSelectedPlace = (place: Place) => (<const>{
+    type: ActionType.UPDATE_SELECTED_PLACE,
+    place
+})
+
+export const updateSelectedRoute = (route: Route) => (<const>{
+    type: ActionType.UPDATE_SELECTED_ROUTE,
+    route
+})
+
 export const updatePlace = (place: Place) => (<const>{
     type: ActionType.UPDATE_PLACE,
     place
@@ -55,4 +65,9 @@ export const addPlaceRoute = (id: number) => (<const>{
 export const removePlaceRoute = (id: number) => (<const>{
     type: ActionType.REMOVE_PLACE_ROUTE,
     id
+})
+
+export const showNotification = (text: string) => (<const>{
+    type: ActionType.SET_NOTIFICATION,
+    text
 })

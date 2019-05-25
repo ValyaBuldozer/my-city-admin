@@ -7,7 +7,8 @@ export default interface AppState {
     selected: {
         place: Place;
         route: Route;
-    }
+    },
+    currentNotification: String
 }
 
 export const initialState: AppState = {
@@ -16,5 +17,6 @@ export const initialState: AppState = {
     selected: {
         place: null,
         route: null
-    }
+    },
+    currentNotification: null
 }

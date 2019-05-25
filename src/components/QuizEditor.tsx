@@ -2,7 +2,7 @@ import * as React from 'react';
 import Answer from '../models/Answer';
 import { connect } from 'react-redux';
 import AppState from '../redux/state';
-import { updatePlace, createAnswer } from '../redux/actions-creators';
+import { updateSelectedPlace, createAnswer } from '../redux/actions-creators';
 import Place from '../models/Place';
 import { Paper } from '@material-ui/core';
 import EditableField from './EditableField';
@@ -50,7 +50,7 @@ const QuizEditor = connect(
         place: state.selected.place
     }),
     (dispatch): ContainerDispatch => ({
-        updatePlace: (place: Place) => dispatch(updatePlace(place)),
+        updatePlace: (place: Place) => dispatch(updateSelectedPlace(place)),
         addAnswer: () => dispatch(createAnswer())
     }),
     ({place}, {updatePlace, addAnswer}): Props => ({

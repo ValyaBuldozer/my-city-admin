@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import EditableField from './EditableField';
 import { connect } from 'react-redux';
 import AppState from '../redux/state';
-import { updatePlace } from '../redux/actions-creators';
+import { updateSelectedPlace } from '../redux/actions-creators';
 import QuizEditor from './QuizEditor';
 import PlaceRoutesEditor from './PlaceRoutesEditor';
 import { postPlaceUpdate } from '../redux/thunks';
@@ -58,8 +58,8 @@ class PlaceEditorBase extends React.Component<Props, State> {
     //     this.fetchPlace();
     // }
 
-    private fieldHandler = (fieldName: FieldType) => e => {
-        this.props.updatePlace({ ...this.props.place, [fieldName]: e.target.value })
+    private fieldHandler = (fieldName: FieldType) => value => {
+        this.props.updatePlace({ ...this.props.place, [fieldName]: value })
     }
 
     private fileHandler = (e: React.FormEvent<HTMLInputElement>) => {
@@ -119,10 +119,10 @@ class PlaceEditorBase extends React.Component<Props, State> {
                         height={400}
                         width={400}
                         image={image ? image : place.image_path}
-                        scale={imageScale / 100}/>
+                        scale={imageScale / 100 + 0.7}/>
                     <div className="editor__slider">
                         <Slider 
-                            value={imageScale}
+                            value={imageScale}  
                             onChange={this.sliderHandler}/>
                     </div>
                     <Button 
@@ -141,7 +141,7 @@ const PlaceEditor = connect(
         place: state.selected.place
     }),
     (dispatch: ThunkDispatch<AppState, {}, StateAction>) => ({
-        updatePlace: (place: Place) => dispatch(updatePlace(place)),
+        updatePlace: (place: Place) => dispatch(updateSelectedPlace(place)),
         savePlace: () => dispatch(postPlaceUpdate())
     })
 )(PlaceEditorBase);

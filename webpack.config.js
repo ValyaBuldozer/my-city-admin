@@ -58,5 +58,5 @@ module.exports = {
       template: "src/index.html"
     })
   ],
-  devtool : "eval"
+  devtool : "inline-source-map"
 };

@@ -42,7 +42,11 @@ export default class EditableField extends React.Component<Props, State> {
         document.removeEventListener('mousedown', this.onOutsideClick);
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        if (this.state.isEditing != prevState.isEditing && !this.state.isEditing) {
+            this.props.onChange(this.state.text);
+        }
+
         if (prevProps.text !== this.props.text) {
             this.setState({ 
                 text: this.props.text ,
@@ -85,18 +89,12 @@ export default class EditableField extends React.Component<Props, State> {
         this.setState({
             isEditing: !this.state.isEditing
         })
-
-        if (!this.state.isEditing) {
-            this.props.onChange(this.state.text);
-        }
     }
 
     private onChange = e => {
         this.setState({
             text: e.target.value
         });
-
-        //this.props.onChange(e.target.value);
     }
 
     private onOutsideClick = e => {
