@@ -5,6 +5,7 @@ import { createBlock } from '../util/classnames';
 
 interface Props {
     text: string;
+    defaultText?: string;
     label?: string;
     showLabel?: boolean;
     type: 'title' | 'default';
@@ -56,8 +57,9 @@ export default class EditableField extends React.Component<Props, State> {
     }
 
     render() {
-        const { type, alignment, label, showLabel } = this.props,
-            { text, isEditing } = this.state;
+        const { type, alignment, label, showLabel, defaultText } = this.props,
+            { text, isEditing } = this.state,
+            currentText = text || defaultText || '';
 
         return  (
             <div className={createBlock('editable-field', null, alignment)} 
@@ -77,7 +79,7 @@ export default class EditableField extends React.Component<Props, State> {
                                 {showLabel ? `${label}:` : ''}
                             </Typography>,
                             <Typography className={createBlock('editable-field', 'text', type)} color="textPrimary">
-                                {text}
+                                {currentText}
                             </Typography>
                         ]
                 }

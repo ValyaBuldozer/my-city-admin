@@ -97,6 +97,34 @@ function appReducer(state: AppState = initialState, action: StateAction = null):
             }
         }
 
+        case ActionType.ADD_PLACE: {
+            return {
+                ...state,
+                places: [ ...state.places, action.place ]
+            }
+        }
+
+        case ActionType.ADD_ROUTE: {
+            return {
+                ...state,
+                routes: [ ...state.routes, action.route ]
+            }
+        }
+
+        case ActionType.REMOVE_PLACE: {
+            return {
+                ...state,
+                places: state.places.filter(place => place.id !== action.id)
+            }
+        }
+
+        case ActionType.REMOVE_ROUTE: {
+            return {
+                ...state,
+                routes: state.routes.filter(route => route.id !== action.id)
+            }
+        }
+
         case ActionType.REMOVE_ANSWER: {
             return {
                 ...state,
@@ -118,8 +146,9 @@ function appReducer(state: AppState = initialState, action: StateAction = null):
                     place: {
                         ...state.selected.place,
                         answers: state.selected.place.answers.map(answer => answer.id === action.answer.id ? 
-                            { ...action.answer } :
-                            answer)
+                                { ...action.answer } :
+                                answer
+                            )
                     }
                 }
             }
@@ -158,6 +187,26 @@ function appReducer(state: AppState = initialState, action: StateAction = null):
                 ...state, 
                 currentNotification: {
                     ...action
+                }
+            }
+        }
+
+        case ActionType.CREATE_PLACE: {
+            return {
+                ...state,
+                selected: {
+                    ...state.selected,
+                    place: {
+                        id: state.places.reduce((maxId, place) => place.id > maxId ? place.id : maxId, Number.MIN_VALUE) + 1,
+                        name: '',
+                        description: '',
+                        address: '',
+                        image_path: '',
+                        logo_path: '',
+                        question_title: '',
+                        answers: [],
+                        routes: []
+                    }
                 }
             }
         }

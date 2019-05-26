@@ -5,13 +5,18 @@ import { Paper } from 'material-ui';
 import Place from '../models/Place';
 import { connect } from 'react-redux';
 import AppState from '../redux/state';
-import { selectPlace } from '../redux/actions-creators';
+import { selectPlace, createPlace } from '../redux/actions-creators';
 import PlaceEditor from './PlaceEditor';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Button } from '@material-ui/core';
+import PlacesList from './PlacesList';
+
 
 interface Props {
     places: Place[];
     selectedPlace: Place;
     selectPlace: (id: number) => any;
+    createPlace: () => any;
 }
 
 interface State {
@@ -30,15 +35,6 @@ class PlacesLayoutBase extends React.Component<Props, State> {
         }
     }
 
-    componentDidMount() {
-        // fetch('/places')
-        //     .then(body => body.json())
-        //     .then(placesList => {
-        //         this.setState({ placesList })
-        //     })
-        //     .catch(e => console.error(e))
-    }
-
     placeSelectHandler(place: PlaceInfo) {
         this.setState({
             currentPlace: place
@@ -53,22 +49,23 @@ class PlacesLayoutBase extends React.Component<Props, State> {
             <React.Fragment>
                 <div className="layout__list   list">
                     {
-                        places ?
-                            places.map(place => 
-                                <PlaceListItem 
-                                    key={place.id} 
-                                    place={place} 
-                                    onSelect={() => selectPlace(place.id)}/>
-                            ) :
-                            <p>Loading places...</p>
+                        places && places.length !== 0 ?
+                            <PlacesList/> :
+                            <CircularProgress />
                     }
                 </div>
                 <div className="layout__editor   editor">
-                    <PlaceEditor/>
+                    {
+                        selectedPlace ? 
+                            <PlaceEditor/> : 
+                            <div>Выберите место</div>
+                    }
                 </div>
             </React.Fragment>
         )
     }
+
+    private createPlaceHandler = () => this.props.createPlace();
 }
 
 const PlacesLayout = connect(
@@ -77,7 +74,8 @@ const PlacesLayout = connect(
         selectedPlace: state.selected.place
     }),
     dispatch => ({
-        selectPlace: (id: number) => dispatch(selectPlace(id))
+        selectPlace: (id: number) => dispatch(selectPlace(id)),
+        createPlace: () => dispatch(createPlace())
     })
 )(PlacesLayoutBase)
 

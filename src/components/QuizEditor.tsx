@@ -27,8 +27,10 @@ const QuizEditorBase = ({ title, answers, updateTitle, addAnswer }: Props) => {
         <Paper className="quiz-editor" elevation={5}>
             <EditableField
                 text={title}
+                label="Вопрос викторины"
                 type="title"
                 alignment="center"
+                defaultText="Введите вопрос"
                 onChange={title => updateTitle(title)}/>
             {
                 answers.map(({id}) => <QuizAnswer id={id} key={id}/>)

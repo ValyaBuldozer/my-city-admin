@@ -44,6 +44,34 @@ export const updateRoute = (route: Route) => (<const>{
     route
 })
 
+export const createPlace = () => (<const>{
+    type: ActionType.CREATE_PLACE
+})
+
+export const createRoute = () => (<const>{
+    type: ActionType.CREATE_ROUTE
+})
+
+export const addPlace = (place: Place) => (<const>{
+    type: ActionType.ADD_PLACE,
+    place
+})
+
+export const addRoute = (route: Route) => (<const>{
+    type: ActionType.ADD_ROUTE,
+    route
+})
+
+export const removePlace = (id: number) => (<const>{
+    type: ActionType.REMOVE_PLACE,
+    id
+})
+
+export const removeRoute = (id: number) => (<const>{
+    type: ActionType.REMOVE_ROUTE,
+    id
+})
+
 export const createAnswer = () => (<const>{
     type: ActionType.CREATE_ANSWER,
 })

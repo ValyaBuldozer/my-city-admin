@@ -8,7 +8,7 @@ import AppState from '../redux/state';
 import { updateSelectedPlace } from '../redux/actions-creators';
 import QuizEditor from './QuizEditor';
 import PlaceRoutesEditor from './PlaceRoutesEditor';
-import { postPlaceUpdate } from '../redux/thunks';
+import { postPlaceUpdate, putNewPlace } from '../redux/thunks';
 import { ThunkDispatch } from 'redux-thunk';
 import StateAction from '../redux/actions';
 import { PlaceLogoEditor } from './LogoEditor';
@@ -50,15 +50,12 @@ class PlaceEditorBase extends React.Component<Props, State> {
         const { place, updatePlace } = this.props,
             { image, imageScale } = this.state;
 
-        if (!place) {
-            return <div>Выберите место</div>
-        }
-
         return (
             <React.Fragment>
                 <EditableField
                     text={place.name}
                     label="Название"
+                    defaultText='Введите название'
                     type='title'
                     alignment='center'
                     onChange={this.fieldHandler('name')} />
@@ -66,6 +63,7 @@ class PlaceEditorBase extends React.Component<Props, State> {
                     text={place.description}
                     showLabel
                     label="Описание"
+                    defaultText='Введите описание'
                     onChange={this.fieldHandler('description')}
                     type='default'
                     alignment='left' />
@@ -73,6 +71,7 @@ class PlaceEditorBase extends React.Component<Props, State> {
                     text={place.address}
                     showLabel
                     label="Адрес"
+                    defaultText='Введите адрес'
                     onChange={this.fieldHandler('address')}
                     type='default'
                     alignment='left' />
@@ -85,11 +84,13 @@ class PlaceEditorBase extends React.Component<Props, State> {
                 <div className="editor__avatar">
                     <PlaceLogoEditor />
                 </div>
-                <Button
-                    variant='contained'
-                    onClick={this.saveHandler}>
-                    Save
-                </Button>
+                <div className="editor__save">
+                    <Button
+                        variant='contained'
+                        onClick={this.saveHandler}>
+                        Save
+                    </Button>
+                </div>
             </React.Fragment>
         )
     }
@@ -97,11 +98,21 @@ class PlaceEditorBase extends React.Component<Props, State> {
 
 const PlaceEditor = connect(
     (state: AppState) => ({
-        place: state.selected.place
+        place: state.selected.place,
+        places: state.places
     }),
     (dispatch: ThunkDispatch<AppState, {}, StateAction>) => ({
         updatePlace: (place: Place) => dispatch(updateSelectedPlace(place)),
-        savePlace: () => dispatch(postPlaceUpdate())
+        postPlace: () => dispatch(postPlaceUpdate()),
+        putNewPlace: () => dispatch(putNewPlace())
+    }),
+    (stateProps, dispatchProps, ownProps) => ({
+        ...ownProps,
+        place: stateProps.place, 
+        updatePlace: dispatchProps.updatePlace,
+        savePlace: stateProps.places.some(place => place.id === stateProps.place.id) ? 
+            dispatchProps.postPlace : 
+            dispatchProps.putNewPlace
     })
 )(PlaceEditorBase);
 
