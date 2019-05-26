@@ -2,6 +2,7 @@ import Place from "../models/Place";
 import Route from "../models/Routes";
 import Answer from "../models/Answer";
 import { ActionType } from "./actions";
+import NotificationVariant from "../models/util/NotificationVariant";
 
 export const setPlaces = (places: Place[]) => (<const>{
     type: ActionType.SET_PLACES,
@@ -67,7 +68,8 @@ export const removePlaceRoute = (id: number) => (<const>{
     id
 })
 
-export const showNotification = (text: string) => (<const>{
+export const showNotification = (text: string, variant: NotificationVariant = 'default') => (<const>{
     type: ActionType.SET_NOTIFICATION,
-    text
+    text,
+    variant
 })

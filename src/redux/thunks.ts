@@ -1,9 +1,10 @@
 import { ThunkDispatch, ThunkAction } from "redux-thunk";
 import AppState from "./state";
-import { setPlaces, setRoutes, showNotification, updatePlace, selectPlace } from "./actions-creators";
+import { setPlaces, setRoutes, showNotification, updatePlace, selectPlace, updateSelectedPlace } from "./actions-creators";
 import { isPlacesArray, isPlace } from "../models/Place";
 import { isRoutesArray } from "../models/Routes";
 import StateAction from "./actions";
+import { uploadFile } from "../util/uploadFile";
 
 const API_PATH = '/admin/',
     PLACES_PATH = API_PATH + 'places',
@@ -85,10 +86,38 @@ export function postPlaceUpdate(): ThunkAction<void, {}, {}, StateAction> {
                 }
             })
             .then(place => {
-                dispatch(showNotification('Updated'));
+                dispatch(showNotification('Место обновлено.'));
                 dispatch(updatePlace(place));
                 dispatch(selectPlace(null));
             })
             .catch(err => console.error(err))
+    }
+}
+
+export function uploadPlaceImage(file: File): ThunkAction<void, {}, {}, StateAction> {
+    return (dispatch: ThunkDispatch<AppState, {}, StateAction>, getState: () => AppState) => {
+        uploadFile(file)
+            .then(filePath => {
+                dispatch(updateSelectedPlace({
+                    ...getState().selected.place,
+                    image_path: filePath
+                }))
+                dispatch(showNotification('Изображение загружено.'))
+            })
+            .catch(err => console.error(err));
+    }
+}
+
+export function uploadPlaceLogo(file: File): ThunkAction<void, {}, {}, StateAction> {
+    return (dispatch: ThunkDispatch<AppState, {}, StateAction>, getState: () => AppState) => {
+        uploadFile(file)
+            .then(filePath => {
+                dispatch(updateSelectedPlace({
+                    ...getState().selected.place,
+                    logo_path: filePath
+                }))
+                dispatch(showNotification('Логотип загружен.'))
+            })
+            .catch(err => console.error(err));
     }
 }

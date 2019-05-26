@@ -156,7 +156,9 @@ function appReducer(state: AppState = initialState, action: StateAction = null):
         case ActionType.SET_NOTIFICATION: {
             return {
                 ...state, 
-                currentNotification: new String(action.text)
+                currentNotification: {
+                    ...action
+                }
             }
         }
 

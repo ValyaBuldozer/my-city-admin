@@ -1,5 +1,6 @@
 import Place from "../models/Place";
 import Route from "../models/Routes";
+import NotificationVariant from "../models/util/NotificationVariant";
 
 export default interface AppState {
     places: Place[];
@@ -8,7 +9,10 @@ export default interface AppState {
         place: Place;
         route: Route;
     },
-    currentNotification: String
+    currentNotification: {
+        text: string,
+        variant: NotificationVariant
+    }
 }
 
 export const initialState: AppState = {

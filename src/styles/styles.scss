@@ -61,11 +61,41 @@ div {
         width: 100%;
     }
 
+    
     &__avatar {
         width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+        align-items: center;
+    }
+}
+
+.logo-editor {
+    width: 100%;
+    display: grid;
+    padding: 20px;
+    grid-template: 70px 1fr 100px / 1fr 1fr;
+    grid-template-areas: "title title"
+                         "upload logo-picker"
+                         "slider slider";
+
+    &__title {
+        grid-area: title;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    &__picker {
+        grid-area: logo-picker;
+    }
+
+    &__slider-wrapper {
+        grid-area: slider;
+        display: flex;
+        justify-content: center;
         align-items: center;
     }
 
@@ -74,6 +104,19 @@ div {
         height: 70px;
         padding: 20px;
         overflow: hidden;
+    }
+
+    &__upload-wrapper {
+        grid-area: upload;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__upload_item {
+        padding: 10px 0;
     }
 }
 

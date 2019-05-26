@@ -11,9 +11,7 @@ import PlaceRoutesEditor from './PlaceRoutesEditor';
 import { postPlaceUpdate } from '../redux/thunks';
 import { ThunkDispatch } from 'redux-thunk';
 import StateAction from '../redux/actions';
-// I have no idea, why it doesn't work with es6 imports...
-// https://github.com/mosch/react-avatar-editor/issues/263
-const AvatarEditor = require('react-avatar-editor');
+import { PlaceLogoEditor } from './LogoEditor';
 
 interface Props {
     place: Place;
@@ -39,42 +37,13 @@ class PlaceEditorBase extends React.Component<Props, State> {
         }
     }
 
-    // fetchPlace() {
-    //     fetchData(`/places/${this.props.id}`, (place: Place) => {
-    //         this.setState({
-    //             ...this.state,
-    //             ...place
-    //         })
-    //     })
-    // }
-
-    // componentDidUpdate(prevProps: Props) {
-    //     if (prevProps.id != this.props.id) {
-    //         this.fetchPlace();
-    //     }
-    // }
-
-    // componentDidMount() {
-    //     this.fetchPlace();
-    // }
-
     private fieldHandler = (fieldName: FieldType) => value => {
         this.props.updatePlace({ ...this.props.place, [fieldName]: value })
-    }
-
-    private fileHandler = (e: React.FormEvent<HTMLInputElement>) => {
-        const file = Array.from(e.currentTarget.files)[0];
-
-        this.setState({ image: file })
     }
 
     private saveHandler = () => {
         //uploadFile(this.state.image);
         this.props.savePlace();
-    }
-
-    private sliderHandler = (event, scaleValue: number) => {
-        this.setState({ imageScale: scaleValue })
     }
 
     render() {
@@ -84,7 +53,7 @@ class PlaceEditorBase extends React.Component<Props, State> {
         if (!place) {
             return <div>Выберите место</div>
         }
-        
+
         return (
             <React.Fragment>
                 <EditableField
@@ -92,45 +61,35 @@ class PlaceEditorBase extends React.Component<Props, State> {
                     label="Название"
                     type='title'
                     alignment='center'
-                    onChange={this.fieldHandler('name')}/>
+                    onChange={this.fieldHandler('name')} />
                 <EditableField
                     text={place.description}
                     showLabel
                     label="Описание"
                     onChange={this.fieldHandler('description')}
                     type='default'
-                    alignment='left'/>
+                    alignment='left' />
                 <EditableField
                     text={place.address}
                     showLabel
                     label="Адрес"
                     onChange={this.fieldHandler('address')}
                     type='default'
-                    alignment='left'/>
+                    alignment='left' />
                 <div className="editor__quiz">
-                    <QuizEditor/>
+                    <QuizEditor />
                 </div>
                 <div className="editor__routes">
-                    <PlaceRoutesEditor/>
+                    <PlaceRoutesEditor />
                 </div>
                 <div className="editor__avatar">
-                    <input type='file' onChange={this.fileHandler}/>       
-                    <AvatarEditor
-                        height={400}
-                        width={400}
-                        image={image ? image : place.image_path}
-                        scale={imageScale / 100 + 0.7}/>
-                    <div className="editor__slider">
-                        <Slider 
-                            value={imageScale}  
-                            onChange={this.sliderHandler}/>
-                    </div>
-                    <Button 
-                        variant='contained'
-                        onClick={this.saveHandler}>
-                        Save
-                    </Button>
+                    <PlaceLogoEditor />
                 </div>
+                <Button
+                    variant='contained'
+                    onClick={this.saveHandler}>
+                    Save
+                </Button>
             </React.Fragment>
         )
     }
