@@ -4,6 +4,11 @@ import Answer from "../models/Answer";
 import { ActionType } from "./actions";
 import NotificationVariant from "../models/util/NotificationVariant";
 
+export const setToken = (token: string) => (<const>{
+    type: ActionType.SET_TOKEN,
+    token
+})
+
 export const setPlaces = (places: Place[]) => (<const>{
     type: ActionType.SET_PLACES,
     places

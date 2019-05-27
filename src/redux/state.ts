@@ -12,7 +12,8 @@ export default interface AppState {
     currentNotification: {
         text: string,
         variant: NotificationVariant
-    }
+    },
+    token: string
 }
 
 export const initialState: AppState = {
@@ -22,5 +23,6 @@ export const initialState: AppState = {
         place: null,
         route: null
     },
-    currentNotification: null
+    currentNotification: null,
+    token: null
 }

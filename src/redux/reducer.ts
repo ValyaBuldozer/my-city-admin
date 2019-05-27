@@ -4,6 +4,14 @@ import StateAction, { ActionType } from "./actions";
 
 function appReducer(state: AppState = initialState, action: StateAction = null): AppState {
     switch(action.type) {
+
+        case ActionType.SET_TOKEN: {
+            return {
+                ...state, 
+                token: action.token
+            }
+        }
+
         case ActionType.SET_PLACES: {
             return {
                 ...state,

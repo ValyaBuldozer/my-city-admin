@@ -1,6 +1,7 @@
 import * as actions from './actions-creators';
 
 export enum ActionType {
+    SET_TOKEN = 'SET_TOKEN',
     SET_PLACES = 'SET_PLACES_INFO',
     SET_ROUTES = 'SET_ROUTES_INFO',
     SELECT_PLACE = 'SELECT_PLACE',
