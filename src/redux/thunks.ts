@@ -51,42 +51,6 @@ export function fetchRoutes(): ThunkAction<void, {}, {}, StateAction> {
     }
 }
 
-// TODO(it's so bad...)
-export function fetchData(): ThunkAction<void, {}, {}, StateAction> {
-    return (dispatch: ThunkDispatch<AppState, {}, StateAction>, getState: () => AppState) => {
-        fetch(PLACES_PATH, {
-            headers: {
-                'token': getState().token
-            }
-        })
-            .then(content => content.json())
-            .then(places => {
-                if (isPlacesArray(places)) {
-                    dispatch(setPlaces(places));
-                } else {
-                    throw new Error('Invalid json format at places GET request.')
-                }
-            })
-            .catch(err => console.error(err))
-            .finally(() => {
-                fetch(ROUTES_PATH, {
-                    headers: {
-                        'token': getState().token
-                    }
-                })
-                    .then(content => content.json())
-                    .then(routes => {
-                        if (isRoutesArray(routes)) {
-                            dispatch(setRoutes(routes));
-                        } else {
-                            throw new Error('Invalid json format at routes GET request.');
-                        }
-                    })
-                    .catch(err => console.error(err));
-            });
-    }
-}
-
 export function postPlaceUpdate(): ThunkAction<void, {}, {}, StateAction> {
     return (dispatch: ThunkDispatch<AppState, {}, StateAction>, getState: () => AppState) => {
         const { selected, token } = getState(),
@@ -158,18 +122,19 @@ export function putNewPlace(): ThunkAction<void, {}, {}, StateAction> {
         })
             .then(response => {
                 if (response.status === 200) {
-                    return +response.text();
+                    return response.json();
                 } else {
                     throw new Error(`Request status: ${response.status} - ${response.statusText}`);
                 }
             })
-            .then(placeId => {
-                dispatch(addPlace({
-                    ...place,
-                    id: placeId
-                }));
-                dispatch(selectPlace(null));
-                dispatch(showNotification('Место успешно добавлено.'))
+            .then(place => {
+                if (isPlace(place)) {
+                    dispatch(addPlace(place));
+                    dispatch(selectPlace(null));
+                    dispatch(showNotification('Место успешно добавлено.'));
+                } else {
+                    throwErr('Invalid response' + place);
+                }
             })
             .catch(err => {
                 console.error(err);

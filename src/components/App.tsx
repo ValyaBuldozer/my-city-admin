@@ -4,7 +4,7 @@ import '../styles/styles.scss';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import AppState from '../redux/state';
-import { fetchPlaces, fetchRoutes, fetchData } from '../redux/thunks';
+import { fetchPlaces, fetchRoutes } from '../redux/thunks';
 import StateAction from '../redux/actions';
 import NotificationHandler from './NotificationHandler';
 import { SnackbarProvider } from 'notistack';
@@ -51,7 +51,10 @@ const App = connect(
         token
     }),
     (dispatch: ThunkDispatch<AppState, {}, StateAction>) => ({
-        fetchData: () => dispatch(fetchData())
+        fetchData: () => {
+            dispatch(fetchPlaces())
+            dispatch(fetchRoutes())
+        }
     })
 )(AppBase);
 

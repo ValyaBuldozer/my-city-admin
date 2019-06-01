@@ -37,6 +37,7 @@ const PlacesListBase = ({ places, createPlace, removePlace, selectPlace, selecte
             {
                 places.map(place => (
                     <ListItem 
+                        className="list-item"
                         selected={place.id === selectedId} 
                         onClick={() => selectPlace(place.id)}>
                         <ListItemAvatar>
